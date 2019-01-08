@@ -18,10 +18,10 @@ Also, it is possible to extend script language with user-defined keywords or dyn
 
 The memory requirements of virtual machine on device side (ARM-thumb):
 
-                    |    INT32     |      FX16Q16      |       FLOAT32
---------------------|--------------|-------------------|----------------
-Math lib disabled   |    9K        |      11K          |       19K             
-Math lib enabled    |    N/A       |      14K          |       43K     
+                    | INT32 | FX16Q16| FLOAT32
+--------------------|-------|--------|--------
+Math lib disabled   | 9K    | 11K    | 19K             
+Math lib enabled    | N/A   | 14K    | 43K     
 
 
 How to use the library.
@@ -32,11 +32,11 @@ and follow general recommendations:
 
 1. Set defines in basic.h file:
 
-#define ENABLE_COMPILER			ON/OFF - Compile with ON for host and OFF for target device.
-#define ENABLE_CHECK_STACK		ON/OFF - Enable/Disable check stack overflow on target virtual machine.
-#define ENABLE_DASM				ON/OFF - Enable/Disable disassembler code. It useful for debug.
-#define ENABLE_MATH				ON/OFF - Enable match library
-#define DATATYPE				TYPE_FLOAT32 or TYPE_FX16Q16 or TYPE_INT32 - supported data types. Note that TYPE_INT32 cannot be enabled together with ENABLE_MATH directive.
+`#define ENABLE_COMPILER			ON/OFF` - Compile with ON for host and OFF for target device.
+`#define ENABLE_CHECK_STACK		ON/OFF` - Enable/Disable check stack overflow on target virtual machine.
+`#define ENABLE_DASM				ON/OFF` - Enable/Disable disassembler code. It useful for debug.
+`#define ENABLE_MATH				ON/OFF` - Enable match library
+`#define DATATYPE				TYPE_FLOAT32 or TYPE_FX16Q16 or TYPE_INT32` - supported data types. Note that TYPE_INT32 cannot be enabled together with ENABLE_MATH directive.
 
 2. Define new language keyword or function (if need) with function 	bs_reg_keyword(), bs_reg_func(), bs_reg_opcode(). The functionality some of then can be empty on host side, but they must be registered.
 
