@@ -18,19 +18,20 @@ Also, it is possible to extend script language with user-defined keywords or dyn
 
 The memory requirements of virtual machine on device side (ARM-thumb):
 
-                    | INT32 | FX16Q16| FLOAT32<br/>
---------------------|-------|--------|--------<br/>
-Math lib disabled   | 9K    | 11K    | 19K<br/>             
-Math lib enabled    | N/A   | 14K    | 43K<br/>     
+
+| | INT32 | FX16Q16| FLOAT32 |
+| -- |-- | -- | -- |
+| Math lib disabled | 9K | 11K | 19K |
+| Math lib enabled | N/A | 14K | 43K |
 
 
 How to use the library.
 ----------------------
 
-The best way to understand how to use the library is explore file 'test.c',
+The best way to understand how to use the library is explore file `test.c`,
 and follow general recommendations:
 
-1. Set defines in basic.h file:
+1. Set defines in `basic.h` file:
 
 `#define ENABLE_COMPILER			ON/OFF` - Compile with ON for host and OFF for target device.<br/>
 `#define ENABLE_CHECK_STACK		ON/OFF` - Enable/Disable check stack overflow on target virtual machine.<br/>
@@ -38,23 +39,23 @@ and follow general recommendations:
 `#define ENABLE_MATH				ON/OFF` - Enable match library<br/>
 `#define DATATYPE				TYPE_FLOAT32 or TYPE_FX16Q16 or TYPE_INT32` - supported data types. Note that TYPE_INT32 cannot be enabled together with ENABLE_MATH directive.<br/>
 
-2. Define new language keyword or function (if need) with function 	bs_reg_keyword(), bs_reg_func(), bs_reg_opcode(). The functionality some of then can be empty on host side, but they must be registered.
+2. Define new language keyword or function (if need) with function 	`bs_reg_keyword()`, `bs_reg_func()`, `bs_reg_opcode()`. The functionality some of then can be empty on host side, but they must be registered.
 
-3. Compile with bs_compile() and export p-code fo file with bs_export_pcode(). In case of error get error description with bs_last_error().
+3. Compile with `bs_compile()` and export p-code fo file with `bs_export_pcode()`. In case of error get error description with `bs_last_error()`.
 
-4. On device side disable compiler (ENABLE_COMPILER OFF) and check that DATATYPE and ENABLE_MATH is consistent. 
+4. On device side disable compiler (`ENABLE_COMPILER OFF`) and check that `DATATYPE` and `ENABLE_MATH` is consistent. 
 
-5. Initialize VM with bs_init_load().
+5. Initialize VM with `bs_init_load()`.
 
-6. Define same opcode as you define before on host, now with real functionality. bs_reg_opcode()
+6. Define same opcode as you define before on host, now with real functionality `bs_reg_opcode()`
 
-7. Define dynamic function with bs_reg_dyn_fn().
+7. Define dynamic function with `bs_reg_dyn_fn()`.
 
-8. You can inject some variables to script before run with bs_set_var() function.
+8. You can inject some variables to script before run with `bs_set_var()` function.
 
-9. Execute script with bs_run(). Here you can also define trace function for debug purposes.
+9. Execute script with `bs_run()`. Here you can also define trace function for debug purposes.
 
-10. Freeing resources with bs_free()
+10. Freeing resources with `bs_free()`
 
 
 
