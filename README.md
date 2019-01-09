@@ -14,8 +14,8 @@ This approach will greatly simplify the requirements for the target device becau
 
 The library provide some basic functionality for debug - you can trace p-code and inspect variable during run-time. Every opcode instruction contain reference to source code line num, it simplify debug. May be in future, I will add souce level debugger. More about opcode format see in `basic.h`
 
-The script language support, depend on compile-time directive, one of three type of data - int32, float32 or fixed point 16Q16 format (for use last feature you will need add to project `libfixmath` library).
-During compile you can enable match library. Match library implement standard set of math function (sin, cos, tan, ln, log ...).
+The script language support, depend on compile-time directive, one of three type of data - int32, float32 or fixed point Q16.16 format (for use last feature you will need add to project `libfixmath` library).
+During compile you can enable math library. Math library implement standard set of math function (sin, cos, tan, ln, log ...) and angle arithmetic.
 Also, it is possible to extend script language with user-defined keywords or dynamic function (dynamic function is a function (re)defined during run-time)
 
 The memory requirements of virtual machine on device side (ARM-thumb):
