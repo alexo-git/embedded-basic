@@ -10,9 +10,11 @@ The project based of perfect BASIC interpreter from Jerry Williams (see https://
 See there also for language description.
 
 This script language implemented as compiler to some intermediate p-code, which is executed on simple vitrual machine in device.
-This approach will greatly simplify the requirements for the target device because the lexical analyzer and the code generator run on the host.
+This approach will greatly simplify the requirements for the target device because the lexical analyzer and the code generator run on the host only and not on device side. Also it more secure because source of the script is not available on device side.
 
-The script language support, depend on compile-time directive, one of three type of data - int32, float32 or fixed point 16Q16 format (for use this feature you will need add to project `libfixmath` library).
+The library provide some basic functionality for debug - you can trace p-code and inspect variable during run-time. Every opcode instruction contain reference to source code line num, it simplify debug. May be in future, I will add souce level debugger. More about opcode format see in `basic.h`
+
+The script language support, depend on compile-time directive, one of three type of data - int32, float32 or fixed point 16Q16 format (for use last feature you will need add to project `libfixmath` library).
 During compile you can enable match library. Match library implement standard set of math function (sin, cos, tan, ln, log ...).
 Also, it is possible to extend script language with user-defined keywords or dynamic function (dynamic function is a function (re)defined during run-time)
 
