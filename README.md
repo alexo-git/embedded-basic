@@ -6,7 +6,7 @@ Sometime during embedded system development it is very useful to have simple scr
 For example, to easy change device functionality for different customer requirements.
 Such device usually resource constrained, so script implementation should be very light both for code and RAM usage.
 
-The project based of perfect BASIC interpreter from Jerry Williams (see https://github.com/jwillia3/BASIC).
+The project based of nice BASIC interpreter from Jerry Williams (see https://github.com/jwillia3/BASIC).
 See there also for language description.
 
 This script language implemented as compiler to some intermediate p-code, which is executed on simple vitrual machine in device.
