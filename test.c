@@ -5,14 +5,14 @@
 #include "basic.h"
 #include "math.h"
 
-PRINTS_(TBASIC_CTX *ctx) 
+int32_t PRINTS_(TBASIC_CTX *ctx) 
 { 
 	char* s = &ctx->stab[(*ctx->sp++).i];
 	puts(s); 
 	return 1;
 }
 
-EXPORT_(TBASIC_CTX *ctx)
+int32_t EXPORT_(TBASIC_CTX *ctx)
 {
 	char str2[16];
 	char str3[16];
@@ -26,7 +26,7 @@ EXPORT_(TBASIC_CTX *ctx)
 	switch (narg)
 	{
 	case 0:
-		printf("EXPORT\n", arg1, str2, str3);
+		printf("EXPORT\n");
 		break;
 	case 1:
 		arg1 = &ctx->stab[(*ctx->sp++).i];
@@ -60,7 +60,7 @@ EXPORT_(TBASIC_CTX *ctx)
 
 
 
-NEWFUN_(TBASIC_CTX *ctx)
+int32_t NEWFUN_(TBASIC_CTX *ctx)
 {
 	TData v;
 	v = (*ctx->sp).v;					
@@ -77,7 +77,7 @@ NEWFUN_(TBASIC_CTX *ctx)
 	return 1;
 }
 
-DYN_FUN_1_(TBASIC_CTX *ctx)
+int32_t DYN_FUN_1_(TBASIC_CTX *ctx)
 {
 	int nparam = DYF_NARG();
 	TValue arg2 = DYF_ARG(2);
@@ -110,7 +110,7 @@ DYN_FUN_1_(TBASIC_CTX *ctx)
 	return 1;
 }
 
-DYN_FUN_2_(TBASIC_CTX *ctx)
+int32_t DYN_FUN_2_(TBASIC_CTX *ctx)
 {
 	int n = DYF_NARG();
 	TValue arg1 = DYF_ARG(1);
@@ -126,7 +126,7 @@ DYN_FUN_2_(TBASIC_CTX *ctx)
 
 #if (ENABLE_COMPILER == ON)
 
-kwdhook_(TBASIC_CTX *ctx, char *msg) 
+int32_t kwdhook_(TBASIC_CTX *ctx, char *msg) 
 {
 	if (!strcmp(msg, "PRINTS"))
 	{
@@ -145,7 +145,7 @@ kwdhook_(TBASIC_CTX *ctx, char *msg)
 	return 1;
 }
 
-fnhook_(TBASIC_CTX *ctx, char *name, int n)
+int32_t fnhook_(TBASIC_CTX *ctx, char *name, int n)
 {
 	if (!strcmp(name, "NEWFUN") && n == 1)
 	{
@@ -292,7 +292,7 @@ int optget(int nargc, char * const nargv[], const char *ostr)
 	return (optopt);                        /* dump back option letter */
 }
 
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	TBASIC_CTX ctx;
 	char* pcode_name = NULL;

@@ -186,7 +186,7 @@ static int32_t NUMBER_(TBASIC_CTX *ctx)
 static int32_t STRING_(TBASIC_CTX *ctx)  // same as NUMBER_
 {
 	TValue val;
-	val.p = (void*)PCV;
+	val.p = (void*)((ssize_t)PCV);
 	(*--SP).p = val.p;
 	STEP;
 }
@@ -501,12 +501,15 @@ static int32_t DIM_(TBASIC_CTX *ctx)
 		ctx->pc--, bs_err(ctx, ERR_DIM);
 	mem[0].i = n;
 	ctx->var[v].p = mem;
+//printf("DIM_():: mem[0].i=%d, ctx->var[v].p=%p, mem=%p\n", mem[0].i, ctx->var[v].p, mem )	;
 	STEP;
 }
 
 static TValue *bound(TBASIC_CTX *ctx, TValue mem, int32_t n)
 {
-	if (n < 1 || n > *(int32_t*)mem.i)
+	int arr_sz = ((TValue*)mem.p)[0].i;
+//printf("bound()::  n=%d, mem.p = %p, sz=%d\n", n, mem.p, arr_sz);
+	if (n < 1 || n > ((TValue*)mem.p)->i)
 		ctx->pc--, bs_err(ctx, ERR_BOUNDS);
 	return (TValue*)mem.p + n;
 }
@@ -1855,7 +1858,7 @@ _EXIT_ERROR:
 	return -EXIT_ERROR;
 }
 
-static int32_t append_str(char* str_in, void** str_out, uint32_t* obuf_sz)
+static int32_t append_str(char* str_in, char** str_out, uint32_t* obuf_sz)
 {
 	uint32_t data_sz = strlen(str_in) + 1;
 	if (*str_out == NULL)
@@ -2025,9 +2028,9 @@ int32_t bs_listing(TBASIC_CTX *ctx, char *bsrc, int32_t level, FILE* lst)
 		fprintf(lst, "TOTAL VARIABLES :\t%d\n", ctx->nvar);
 		fprintf(lst, "CODE SEGMENT SIZE:\t%d\n", code_len);
 		fprintf(lst, "VAR SEGMENT SIZE:\t%d\n", var_len);
-		fprintf(lst, "SUB SEGMENT SIZE:\t%d (VARS=%d; LOCS=%d)\n", sub_len*sub_deep * sizeof(int32_t), sub_len, sub_deep-2);
+		fprintf(lst, "SUB SEGMENT SIZE:\t%d (VARS=%d; LOCS=%d)\n", (int)(sub_len*sub_deep * sizeof(int32_t)), sub_len, sub_deep-2);
 		fprintf(lst, "STRING SEGMENT SIZE:\t%d\n", cstr_len);
-		fprintf(lst, "CONTEXT SIZE:\t\t%d\n", sizeof(TBASIC_CTX));
+		fprintf(lst, "CONTEXT SIZE:\t\t%d\n", (int)sizeof(TBASIC_CTX));
 		fprintf(lst, "\n");
 	}
 

@@ -59,17 +59,17 @@ extern "C"
 #endif
 
 #define TYPE_INT32				1
-#define TYPE_FX16Q16			2				
-#define TYPE_FLOAT32			3
+#define TYPE_FX16Q16				2				
+#define TYPE_FLOAT32				3
 
-#define ON						1
-#define OFF						0
+#define ON					1
+#define OFF					0
 
 /* MAIN CONFIGURATION OPTIONS */
-#define ENABLE_COMPILER			ON
-#define ENABLE_CHECK_STACK		ON
+#define ENABLE_COMPILER				ON
+#define ENABLE_CHECK_STACK			ON
 #define ENABLE_DASM				ON
-#define ENABLE_MATH				ON
+#define ENABLE_MATH				OFF
 
 //#define DATATYPE				TYPE_INT32
 //#define DATATYPE				TYPE_FX16Q16
@@ -118,49 +118,49 @@ typedef fix16_t TData;
 #define BS_TRUE					1
 
 /* EXIT CODES */
-#define EXIT_SUCCESS			0
+#define EXIT_SUCCESS				0
 #define EXIT_ERROR				1
-#define EXIT_ERROR_COMPILE		2
-#define EXIT_ERROR_RUNTIME		3
-#define EXIT_ERROR_ALLOC		4
-#define EXIT_ERROR_VERSION		5
+#define EXIT_ERROR_COMPILE			2
+#define EXIT_ERROR_RUNTIME			3
+#define EXIT_ERROR_ALLOC			4
+#define EXIT_ERROR_VERSION			5
 #define EXIT_BYE				6
 
 /* COMPILER ERROR MESSAGE */
-#define ERR_BAD_TOKEN			1
+#define ERR_BAD_TOKEN				1
 #define ERR_SYNTAX				2
 #define ERR_COUNT				3
-#define ERR_EXPRESSION			4
-#define ERR_COMP_MODE			5
+#define ERR_EXPRESSION				4
+#define ERR_COMP_MODE				5
 #define ERR_STA					6
 #define ERR_TOK_STA				7
-#define ERR_OUT_OF_RANGE		8
+#define ERR_OUT_OF_RANGE			8
 
 /* RUN-TIME ERROR MESSAGE */
 #define ERR_BOUNDS				1
 #define ERR_DIM					2
-#define ERR_STACK_OVERFLOW		3
-#define ERR_MATH_OVERFLOW		4
-#define ERR_DIV_ZERO			5
-#define ERR_MOD_ZERO			6
-#define ERR_CODE_OVERFLOW		7
-#define ERR_INVALID_OPCODE		8
-#define ERR_UNDEFINED_FN		9
+#define ERR_STACK_OVERFLOW			3
+#define ERR_MATH_OVERFLOW			4
+#define ERR_DIV_ZERO				5
+#define ERR_MOD_ZERO				6
+#define ERR_CODE_OVERFLOW			7
+#define ERR_INVALID_OPCODE			8
+#define ERR_UNDEFINED_FN			9
 #define ERR_DYN_FN				10
 
 /* LISTING VERBOSITY */
-#define LST_PRINT_REPORT		0x01
-#define LST_PRINT_LISTING		0x02
-#define LST_PRINT_ALL			0xff
+#define LST_PRINT_REPORT			0x01
+#define LST_PRINT_LISTING			0x02
+#define LST_PRINT_ALL				0xff
 
-#define GET_OPCODE(V)			(V & 0xff)
-#define GET_OPLEN(V)			((V >> 8 ) & 0x00ff)
-#define GET_LINEn(V)			((V >> 16) & 0xffff)
+#define GET_OPCODE(V)				(V & 0xff)
+#define GET_OPLEN(V)				((V >> 8 ) & 0x00ff)
+#define GET_LINEn(V)				((V >> 16) & 0xffff)
 
 /* Dynamic function argument access */
 #define DYF_NARG()				((ctx->sp[0]).i)
 #define DYF_ARG(N)				(ctx->sp[DYF_NARG()-N+1])
-#define DYF_RETVAL(VAL)			(ctx->sp+=(ctx->sp[0]).i, (ctx->sp)->v = VAL )  /*(ctx->sp+=DYF_NARG()+1, (--ctx->sp)->v = VAL )*/
+#define DYF_RETVAL(VAL)				(ctx->sp+=(ctx->sp[0]).i, (ctx->sp)->v = VAL )  /*(ctx->sp+=DYF_NARG()+1, (--ctx->sp)->v = VAL )*/
 
 typedef union TValue TValue;
 typedef struct TBASIC_CTX TBASIC_CTX;
