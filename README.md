@@ -6,14 +6,16 @@ Sometime during embedded system development it is very useful to have simple scr
 For example, to easy change device functionality for different customer requirements.
 Such device usually resource constrained, so script implementation should be very light both for code and RAM usage.
 
-The project based of perfect BASIC interpreter from Jerry Williams (see https://github.com/jwillia3/BASIC).
+The project based of nice BASIC interpreter from Jerry Williams (see https://github.com/jwillia3/BASIC).
 See there also for language description.
 
 This script language implemented as compiler to some intermediate p-code, which is executed on simple vitrual machine in device.
-This approach will greatly simplify the requirements for the target device because the lexical analyzer and the code generator run on the host.
+This approach will greatly simplify the requirements for the target device because the lexical analyzer and the code generator run on the host only and not on the device side. Also it more secure because source of the script is not available on the device side.
 
-The script language support, depend on compile-time directive, one of three type of data - int32, float32 or fixed point 16Q16 format (for use this feature you will need add to project `libfixmath` library).
-During compile you can enable match library. Match library implement standard set of math function (sin, cos, tan, ln, log ...).
+The library provide some basic functionality for debug - you can trace p-code and inspect variable during run-time. Every opcode instruction contain reference to source code line num, it simplify debug. May be in future, I will add soruce level debugger. More about opcode format see in `basic.h`
+
+The script language support, depend on compile-time directive, one of three type of data - int32, float32 or fixed point Q16.16 format (for use last feature you will need add to project `libfixmath` library).
+During compile you can enable math library. Math library implement standard set of math function (sin, cos, tan, ln, log ...) and angle arithmetic.
 Also, it is possible to extend script language with user-defined keywords or dynamic function (dynamic function is a function (re)defined during run-time)
 
 The memory requirements of virtual machine on device side (ARM-thumb):
