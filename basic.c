@@ -321,7 +321,7 @@ static int32_t MOD_(TBASIC_CTX *ctx)
 
 static int32_t EQ_(TBASIC_CTX *ctx)
 {
-	A = (TData)((A<B) ? BS_TRUE : BS_FALSE); SP++; STEP;
+	A = (TData)((A==B) ? BS_TRUE : BS_FALSE); SP++; STEP;
 };
 
 static int32_t LT_(TBASIC_CTX *ctx)
@@ -351,7 +351,7 @@ static int32_t GE_(TBASIC_CTX *ctx)
 
 static int32_t AND_(TBASIC_CTX *ctx)
 {
-	if ((A != 0.0) && (B != 0.0))
+	if ((A != 0) && (B != 0))
 		A = BS_TRUE;
 	else
 		A = BS_FALSE;
@@ -361,7 +361,7 @@ static int32_t AND_(TBASIC_CTX *ctx)
 
 static int32_t OR_(TBASIC_CTX *ctx)
 {
-	if ((A != 0.0) || (B != 0.0))
+	if ((A != 0) || (B != 0))
 		A = BS_TRUE;
 	else
 		A = 0;
@@ -1194,28 +1194,24 @@ int32_t bs_init_load(
 	return EXIT_SUCCESS;
 
 _EXIT_ERROR:
-	free(ctx->prg);
-	free(ctx->stk);
-	free(ctx->var);
-	free(ctx->dmem);
-	free(ctx->sub);
-	free(ctx->stab);
-	free(ctx->vhash);
-	free(ctx->vname);
-	free(ctx->dynf_list);
+
+	bs_free(ctx);
+
 	return err;
 }
 
 int32_t bs_free(TBASIC_CTX *ctx)
 {
-	free(ctx->prg);
-	free(ctx->stk);
-	free(ctx->var);
-	free(ctx->dmem);
-	free(ctx->sub);
-	free(ctx->stab);
-	free(ctx->vhash);
-	free(ctx->dynf_list);
+	free(ctx->prg);		ctx->prg = NULL;
+	free(ctx->stk);		ctx->stk = NULL;
+	free(ctx->var);		ctx->var = NULL;
+	free(ctx->dmem);	ctx->dmem = NULL;
+	free(ctx->sub);		ctx->sub = NULL;
+	free(ctx->stab);	ctx->stab = NULL;
+	free(ctx->vhash);	ctx->vhash = NULL;
+	free(ctx->vname);	ctx->vname = NULL;
+	free(ctx->dynf_list);	ctx->dynf_list = NULL;
+
 	return EXIT_SUCCESS;
 }
 
