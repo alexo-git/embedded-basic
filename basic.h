@@ -1,4 +1,5 @@
 /*
+Copyright 2018 Alex Ovchinikov
 Copyright 2011 Jerry Williams Jr
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 

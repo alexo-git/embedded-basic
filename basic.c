@@ -1,4 +1,6 @@
 /*
+
+Copyright 2018 Alex Ovchinikov
 Copyright 2011 Jerry Williams Jr
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
@@ -15,7 +17,6 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WIT
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-
 #include <setjmp.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -25,84 +26,13 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <ctype.h>
 #include "basic.h"
 
-#ifdef __BORLANDC__
-#define strtof				strtod
-#define fmodf				fmod
-#define ceilf				ceil
-#define log2f				log2
-#define logf				log
-#define floorf				floor
-#define sqrtf				sqrt
-#define expf				exp
-#define asinf				asin
-#define acosf				acos
-#define atan2f				atan2
-#define atanf				atan
-#define sinf				sin
-#define cosf				cos
-#define tanf				tan
-#define roundf(x) 			(x<0?ceil((x)-0.5):floor((x)+0.5))
-
-/* Best possible approximation of log(2) as a 'float'.  */
-#define LOG2 0.693147180559945309417232121458176568075f
-
-/* Best possible approximation of 1/log(2) as a 'float'.  */
-#define LOG2_INVERSE 1.44269504088896340735992468100189213743f
-
-/* sqrt(0.5).  */
-#define SQRT_HALF 0.707106781186547524400844362104849039284f
-
-float fabsf (float x)
-{
-	return fabs(x);
-}
-
-float
-log2f (float x)
-{
-  if (x <= 0.0f)
-    {
-      if (x == 0.0f)
-        /* Return -Infinity.  */
-        return 1/0;
-      else
-        {
-          /* Return NaN.  */
-		  return 0.0f / 0.0f;
-        }
-    }
-
-  /* Decompose x into
-       x = 2^e * y
-     where
-       e is an integer,
-       1/2 < y < 2.
-     Then log2(x) = e + log2(y) = e + log(y)/log(2).  */
-  {
-    int e;
-    float y;
-
-    y = frexp (x, &e);
-    if (y < SQRT_HALF)
-      {
-        y = 2.0f * y;
-        e = e - 1;
-      }
-
-    return (float) e + logf (y) * LOG2_INVERSE;
-  }
-}
-
-#endif
-
-
-#define A					ctx->sp[1].v					/* LEFT OPERAND */
-#define B					ctx->sp[0].v					/* RIGHT OPERAND */
-#define PCV					(ctx->prg[(ctx->pc)++])			/* GET IMMEDIATE */
-#define SP					(ctx->sp)
-#define STEP				return 1						/* CONTINUE RUNNING */
+#define A				ctx->sp[1].v				/* LEFT OPERAND */
+#define B				ctx->sp[0].v				/* RIGHT OPERAND */
+#define PCV				(ctx->prg[(ctx->pc)++])			/* GET IMMEDIATE */
+#define SP				(ctx->sp)
+#define STEP				return 1				/* CONTINUE RUNNING */
 #define SUB(V,N)			(*(ctx->sub + (V)*ctx->sloc_sz + (N)))
-#define LOC(N)				ctx->var[SUB(v, N+2)].v		/* SUBROUTINE LOCAL */
+#define LOC(N)				ctx->var[SUB(v, N+2)].v			/* SUBROUTINE LOCAL */
 
 /* P-CODE SIGNATURE */
 const char bs_fsign[8] = { 'B','A','S', '1', 0, 0, ENABLE_MATH, DATATYPE };
