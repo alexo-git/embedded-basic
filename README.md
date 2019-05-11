@@ -9,13 +9,13 @@ Such device usually resource constrained, so script implementation should be ver
 The project based of nice BASIC interpreter from Jerry Williams (see https://github.com/jwillia3/BASIC).
 See there also for language description.
 
-This script language implemented as compiler to some intermediate p-code, which is executed on simple vitrual machine in device.
-This approach will greatly simplify the requirements for the target device because the lexical analyzer and the code generator run on the host only and not on the device side. Also it more secure because source of the script is not available on the device side.
+This script language implemented as compiler to some intermediate code, which is executed on simple vitrual machine in device.
+This approach will greatly simplify the requirements for the target device because the lexical analyzer and the code generator run on the host only and do not use resources on device side. Also it more secure because source code of the script is not available on the device side.
 
-The library provide some basic functionality for debug - you can trace p-code and inspect variable during run-time. Every opcode instruction contain reference to source code line num, it simplify debug. May be in future, I will add soruce level debugger. More about opcode format see in `basic.h`
+The library provide some basic functionality for debug - you can trace intermediate code and inspect variable during run-time. Every opcode instruction contain reference to source code line number for simplify debugging. May be I will add soruce level debugger in future. More about opcode format see in `basic.h`
 
 The script language support, depend on compile-time directive, one of three type of data - int32, float32 or fixed point Q16.16 format (for use last feature you will need add to project `libfixmath` library).
-During compile you can enable math library. Math library implement standard set of math function (sin, cos, tan, ln, log ...) and angle arithmetic.
+You can enable math library during compile. Math library implement standard set of math function (sin, cos, tan, ln, log ...) and angle arithmetic.
 Also, it is possible to extend script language with user-defined keywords or dynamic function (dynamic function is a function (re)defined during run-time)
 
 The memory requirements of virtual machine on device side (ARM-thumb):
@@ -30,7 +30,7 @@ The memory requirements of virtual machine on device side (ARM-thumb):
 How to use the library.
 ----------------------
 
-The best way to understand how to use the library is explore file `test.c`,
+The best way to understand how to use the library is to check file `test.c`,
 and follow general recommendations:
 
 1. Set defines in `basic.h` file:
@@ -41,11 +41,11 @@ and follow general recommendations:
 `#define ENABLE_MATH				ON/OFF` - Enable match library<br/>
 `#define DATATYPE				TYPE_FLOAT32 or TYPE_FX16Q16 or TYPE_INT32` - supported data types. Note that TYPE_INT32 cannot be enabled together with ENABLE_MATH directive.<br/>
 
-2. Define new language keyword or function (if need) with function 	`bs_reg_keyword()`, `bs_reg_func()`, `bs_reg_opcode()`. The functionality some of then can be empty on host side, but they must be registered.
+2. Define new language keyword or function (if need) with function 	`bs_reg_keyword()`, `bs_reg_func()`, `bs_reg_opcode()`. The functionality some of them can be empty on host side, but they must be registered.
 
-3. Compile with `bs_compile()` and export p-code fo file with `bs_export_pcode()`. In case of error get error description with `bs_last_error()`.
+3. Compile with `bs_compile()` and export binary code fo file with `bs_export_pcode()`. In case of error get error description with `bs_last_error()`.
 
-4. On device side disable compiler (`ENABLE_COMPILER OFF`) and check that `DATATYPE` and `ENABLE_MATH` is consistent. 
+4. On device side disable (`ENABLE_COMPILER OFF`) and check that `DATATYPE` and `ENABLE_MATH` is consistent. 
 
 5. Initialize VM with `bs_init_load()`.
 
